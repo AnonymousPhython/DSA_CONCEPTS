@@ -16,80 +16,86 @@ ll max(ll x,ll y){if(x>y) return x; else return y;}
 class Queue{
     public:
     int front,back,size,capacity,*data;
+    
+    Queue(int capacity);
+    bool isempty();
+    bool isfull();
+    void enqueue(int val);
+    void dequeue();
+    int getfront();
+    int getback();
+    
 };
 
-Queue* make(int capacity){
-    Queue *queue=new Queue();
-    queue->data=new int[capacity];
-    queue->capacity=capacity;
-    queue->size=0;
-    queue->front=0;
-    queue->back=capacity-1;
-    return queue;
-    
+Queue::Queue(int Capacity){
+    data=new int[Capacity];
+    capacity=Capacity;
+    size=0;
+    front=0;
+    back=Capacity-1;
 }
 
-bool isempty(Queue *queue){
-    return (queue->size==0);
+bool Queue::isempty(){
+    return (size==0);
 }
 
-bool isfull(Queue *queue){
-    return (queue->size==queue->capacity);
+bool Queue::isfull(){
+    return (size==capacity);
 }
 
-void enqueue(Queue *queue,int val){
-    if(isfull(queue)){
+void Queue::enqueue(int val){
+    if(isfull()){
         cout<<"Given Queue is Full can't Enqueue"<<endl;
         return;
     }
-    queue->back=(queue->back+1)%queue->capacity;
-    queue->data[queue->back]=val;
-    queue->size++;
+    back=(back+1)%capacity;
+    data[back]=val;
+    size++;
 }
 
-void dequeue(Queue *queue){
-    if(isempty(queue)){
+void Queue::dequeue(){
+    if(isempty()){
         cout<<"Given Queue is Empty can't Dequeue"<<endl;
         return;
     }
-    queue->front=(queue->front+1)%queue->capacity;
-    queue->size--;
+    front=(front+1)%capacity;
+    size--;
 }
 
-int getfront(Queue *queue){
-    if(isempty(queue)){
+int Queue::getfront(){
+    if(isempty()){
         cout<<"Given Queue is Empty"<<endl;
         return INT_MIN;
     }
-    return queue->data[queue->front];
+    return data[front];
 }
 
-int getback(Queue *queue){
-    if(isempty(queue)){
+int Queue::getback(){
+    if(isempty()){
         cout<<"Given Queue is Empty"<<endl;
         return INT_MIN;
     }
-    return queue->data[queue->back];
+    return data[back];
 }
 
 int main() {
-    Queue* queue = make(10);
+    Queue q(10);
   
-    enqueue(queue,34);
-    enqueue(queue,54);
-    enqueue(queue,67);
-    enqueue(queue,49);
+    q.enqueue(34);
+    q.enqueue(54);
+    q.enqueue(67);
+    q.enqueue(49);
   
-    dequeue(queue);
+    q.dequeue();
     cout<<"dequeued from queue\n";
   
-    cout<<"Front item is "<<getfront(queue)<<endl;
-    cout<<"Rear item is "<<getback(queue)<<endl;
-    dequeue(queue);
-    enqueue(queue,50);
+    cout<<"Front value is "<<q.getfront()<<endl;
+    cout<<"Back value is "<<q.getback()<<endl;
+    q.dequeue();
+    q.enqueue(50);
     cout<<endl<<"dequeued from queue\n";
-    cout<<"Front item is "<<getfront(queue)<<endl;
-    cout<<"Rear item is "<<getback(queue)<<endl;
+    cout<<"Front value is "<<q.getfront()<<endl;
+    cout<<"Back value is "<<q.getback()<<endl;
   
     return 0;
 }
