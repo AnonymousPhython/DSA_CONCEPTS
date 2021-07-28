@@ -14,9 +14,9 @@ ll power(ll x, ll y) {ll res=1; x%=MOD; while(y){if(y&1)res=mul(res,x); y>>=1; x
 ll max(ll x,ll y){if(x>y) return x; else return y;}
 
 class Queue{
-    public:
+    private:
     int front,back,size,capacity,*data;
-    
+    public:
     Queue(int capacity);
     bool isempty();
     bool isfull();
