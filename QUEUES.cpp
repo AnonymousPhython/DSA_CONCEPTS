@@ -73,7 +73,7 @@ int getback(Queue *queue){
 }
 
 int main() {
-    Queue* queue = make(1000);
+    Queue* queue = make(10);
   
     enqueue(queue,34);
     enqueue(queue,54);
