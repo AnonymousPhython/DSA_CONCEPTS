@@ -15,15 +15,15 @@ ll max(ll x,ll y){if(x>y) return x; else return y;}
 
 class Graph{
     private:
-    int vertices;
-    vector<int> *adj;
+        int vertices;
+        vector<int> *adj;
     public:
-    Graph(int v);
-    void connect(int u,int v);
-    void bfs(int i);
-    void dfs(int i);
-    void dfsrec(int i,bool visited[]);
-    void connected_components();
+        Graph(int v);
+        void connect(int u,int v);
+        void bfs(int i);
+        void dfs(int i);
+        void dfsrec(int i,bool visited[]);
+        void connected_components();
 };
 
 Graph::Graph(int v){
