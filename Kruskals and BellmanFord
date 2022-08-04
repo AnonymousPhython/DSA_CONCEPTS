@@ -1,0 +1,126 @@
+#include <bits/stdc++.h>
+
+#define ll long long int
+#define MOD 1000000007
+#define fio ios_base::sync_with_stdio(false),cin.tie(NULL),cout.tie(NULL)
+#define test int t; cin>>t; while(t--)
+
+using namespace std;
+
+ll add(ll x, ll y) {ll res=x+y; return(res>=MOD?res-MOD:res);}
+ll mul(ll x, ll y) {ll res=x*y; return(res>=MOD?res%MOD:res);}
+ll sub(ll x, ll y) {ll res=x-y; return(res<0?res+MOD:res);}
+ll power(ll x, ll y) {ll res=1; x%=MOD; while(y){if(y&1)res=mul(res,x); y>>=1; x=mul(x,x);} return res;}
+ll max(ll x,ll y){if(x>y) return x; else return y;}
+
+class Set{
+    int *parent;
+    int *rank;
+  
+public:
+    Set(int n)
+    {
+        parent = new int[n];
+        rank = new int[n];
+  
+        for (int i = 0; i < n; i++) {
+            parent[i] = -1;
+            rank[i] = 1;
+        }
+    }
+  
+    int find(int i)
+    {
+        if (parent[i] == -1)
+            return i;
+  
+        return parent[i] = find(parent[i]);
+    }
+    
+    void unite(int x, int y)
+    {
+        int t1 = find(x);
+        int t2 = find(y);
+  
+        if (t1 != t2) {
+            if (rank[t1] < rank[t2]) {
+                parent[t1] = t2;
+                rank[t2] += rank[t1];
+            }
+            else {
+                parent[t2] = t1;
+                rank[t1] += rank[t2];
+            }
+        }
+    }
+};
+
+
+class Graph{
+    
+    private:
+    vector<vector<int>>edgeList;
+    int vertices;
+    
+    public:
+    Graph(int v){
+        vertices = v;
+    }
+    
+    
+    void addEdge(int u,int v,int w){
+        edgeList.push_back({w,u,v});
+    }
+    
+    int kruskals(){
+        
+        Set s(vertices);
+        sort(edgeList.begin(),edgeList.end());
+        int mstw=0;
+        
+        for(auto it:edgeList){
+            if(s.find(it[1])!=s.find(it[2])){
+                s.unite(it[1],it[2]);
+                mstw+=it[0];
+            }
+        }
+        
+        return mstw;
+    }
+    
+    vector<int>bellmanFord(int source){
+        
+        vector<int>dist(vertices,INT_MAX);
+        dist[source]=0;
+        int edges = edgeList.size();
+        
+        for(int i=0;i<vertices-1;i++){
+            for(auto it:edgeList){
+                if(dist[it[1]]!=INT_MAX && dist[it[1]]+it[0]<dist[it[2]]){
+                    dist[it[2]]=dist[it[i]]+it[0];
+                }
+            }
+        }
+        return dist;
+    }
+    
+};
+
+
+int main(){
+
+    int edges,vertices;
+    cin>>vertices>>edges;
+  
+    Graph g(vertices);
+    for (int i=0;i<edges;i++){
+        int u,v,w;
+        cin>>u>>v>>w;
+        g.addEdge(u,v,w);
+    }
+  
+    cout<<g.kruskals()<<endl;
+    cout<<g.bellmanFord()<<endl;
+ 
+    return 0;
+}
